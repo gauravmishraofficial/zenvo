@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Palette as RGB triplets so Tailwind opacity modifiers work. Dark mode = class on <html>. */
+  :root {
+    --paper: 245 237 220;
+    --card: 252 248 238;
+    --ink: 28 25 23;
+    --muted: 104 95 83;
+    --line: 28 25 23;
+    --shadow: 28 25 23;
+    --accent: 196 54 28;
+    --accent-fg: 255 250 240;
+    --sea: 17 94 104;
+    --brass: 196 148 40;
+    color-scheme: light;
+  }
+  .dark {
+    --paper: 14 19 32;
+    --card: 22 29 47;
+    --ink: 244 236 216;
+    --muted: 162 166 181;
+    --line: 112 122 156;
+    --shadow: 4 6 12;
+    --accent: 255 122 80;
+    --accent-fg: 14 19 32;
+    --sea: 94 196 190;
+    --brass: 232 188 84;
+    color-scheme: dark;
+  }
+
+  html {
+    background-color: rgb(var(--paper));
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    /* faint dot grid, like a travel journal page */
+    background-image: radial-gradient(rgb(var(--ink) / 0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    min-height: 100vh;
+  }
+  h1, h2, h3 {
+    @apply font-display;
+  }
+  :focus-visible {
+    outline: 3px solid rgb(var(--accent));
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: rgb(var(--brass) / 0.45);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border-2 border-line px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-widest;
+    @apply transition duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-60;
+    box-shadow: 3px 3px 0 0 rgb(var(--shadow));
+  }
+  .btn:hover:not(:disabled) {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 0 rgb(var(--shadow));
+  }
+  .btn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 0 rgb(var(--shadow));
+  }
+  .btn-primary {
+    @apply bg-accent text-accent-fg;
+  }
+  .btn-ghost {
+    @apply bg-card text-ink;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5;
+  }
+  .card {
+    @apply rounded-xl border-2 border-line bg-card shadow-stamp;
+  }
+  .label {
+    @apply mb-1.5 block font-mono text-xs font-bold uppercase tracking-widest text-muted;
+  }
+  .input {
+    @apply w-full rounded-md border-2 border-line bg-card px-3 py-2.5 text-base text-ink placeholder:text-muted/70;
+    @apply transition-colors duration-150;
+  }
+  .input[aria-invalid='true'] {
+    border-color: rgb(var(--accent));
+  }
+  .field-error {
+    @apply mt-1.5 flex items-start gap-1 font-mono text-xs font-bold text-accent;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border-2 border-line bg-card px-3.5 py-1.5 text-sm font-semibold text-ink;
+    @apply transition duration-150 hover:-translate-y-px;
+  }
+  .chip[aria-pressed='true'] {
+    @apply bg-ink text-paper;
+  }
+  .eyebrow {
+    @apply font-mono text-xs font-bold uppercase tracking-[0.2em] text-muted;
+  }
+  /* rubber-stamp look */
+  .stamp {
+    @apply inline-block rounded-md border-2 border-dashed border-accent px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent;
+    transform: rotate(-3deg);
+  }
+  .skeleton {
+    @apply animate-pulse rounded bg-ink/10;
+  }
+  .link {
+    @apply font-semibold underline decoration-accent decoration-2 underline-offset-4 hover:bg-brass/30;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
