@@ -1,0 +1,19 @@
+# dependencies & build output
+node_modules
+dist
+dist-ssr
+
+# secrets / local config (never commit)
+.env
+.env.local
+.env.*.local
+
+# misc
+*.tmp
+*.zip
+local.db
+*.tsbuildinfo
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
