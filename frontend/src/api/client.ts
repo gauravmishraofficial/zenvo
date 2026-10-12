@@ -6,6 +6,8 @@ import type { ApiErrorBody } from '../types/trip';
 
 export const API_BASE = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(/\/+$/, '');
 export const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
+/** With USE_MOCK: still generate trips with the real backend's AI (see ./hybrid.ts). */
+export const USE_AI = import.meta.env.VITE_USE_AI === 'true';
 
 const TOKEN_KEY = 'zenvo.token';
 /** Fired on window when the server rejects our token (so the UI can sign out). */

@@ -98,6 +98,28 @@ function saveTrip(userId: string, trip: Trip): void {
   writeStore(store);
 }
 
+/** Store a finished itinerary for the signed-in user, like the real backend would. No-op when signed out. */
+export function rememberTrip(req: TripRequest, days: ItineraryDay[], tripId: string, total: CostEstimate): void {
+  try {
+    saveTrip(currentUser().id, {
+      id: tripId,
+      destination: req.destination.trim(),
+      start_date: req.start_date,
+      end_date: req.end_date,
+      travelers: req.travelers,
+      budget: req.budget,
+      interests: req.interests,
+      transport: req.transport,
+      notes: req.notes,
+      days,
+      total_cost_estimate: total,
+      created_at: new Date().toISOString(),
+    });
+  } catch {
+    /* not signed in: trip is not saved */
+  }
+}
+
 // ---------------------------------------------------------------- itinerary generation
 
 const BUDGET_FACTOR: Record<string, number> = { budget: 0.6, mid: 1, luxury: 2.4 };
@@ -227,24 +249,7 @@ async function* generateTrip(req: TripRequest, signal?: AbortSignal): AsyncGener
   const tripId = `mock_${Date.now().toString(36)}`;
 
   // The real backend stores the trip for the signed-in user; mimic that here.
-  try {
-    saveTrip(currentUser().id, {
-      id: tripId,
-      destination: req.destination.trim(),
-      start_date: req.start_date,
-      end_date: req.end_date,
-      travelers: req.travelers,
-      budget: req.budget,
-      interests: req.interests,
-      transport: req.transport,
-      notes: req.notes,
-      days,
-      total_cost_estimate: total,
-      created_at: new Date().toISOString(),
-    });
-  } catch {
-    /* not signed in: trip is not saved */
-  }
+  rememberTrip(req, days, tripId, total);
   yield { type: 'done', trip_id: tripId, total_cost_estimate: total };
 }
 

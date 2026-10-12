@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { USE_MOCK } from '../api';
+import { USE_AI, USE_MOCK } from '../api';
 
 export default function Footer() {
   return (
@@ -33,7 +33,9 @@ export default function Footer() {
           <p className="eyebrow mb-2">Credits</p>
           <p>Destination photos come from Wikipedia and Wikimedia Commons contributors.</p>
           {USE_MOCK && (
-            <p className="mt-3 font-mono text-xs font-bold uppercase tracking-widest text-sea">Demo mode: mock data</p>
+            <p className="mt-3 font-mono text-xs font-bold uppercase tracking-widest text-sea">
+              {USE_AI ? 'Beta: trips are saved in this browser' : 'Demo mode: mock data'}
+            </p>
           )}
         </div>
       </div>
