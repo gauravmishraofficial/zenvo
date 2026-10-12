@@ -14,7 +14,9 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   const links = (
     <>
